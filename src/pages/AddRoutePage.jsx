@@ -12,8 +12,7 @@ function AddRoutePage() {
                     <input
                         id="name"
                         type="text"
-                        placeholder="Введите название"
-                    />
+                        placeholder="Введите название"/>
                 </div>
 
                 <div>
@@ -24,21 +23,14 @@ function AddRoutePage() {
                     <input
                         id="city"
                         type="text"
-                        placeholder="Введите город"
-                    />
-                </div>
+                        placeholder="Введите город"/></div>
 
-                <div>
-                    <label htmlFor="duration">
-                        Длительность
-                    </label>
+                <div> <label htmlFor="duration">
+                        Длительность </label>
 
-                    <input
-                        id="duration"
+                    <input id="duration"
                         type="text"
-                        placeholder="Например: 3 часа"
-                    />
-                </div>
+                        placeholder="Например: 3 часа"/></div>
 
                 <div>
                     <label htmlFor="difficulty">
@@ -73,8 +65,7 @@ function AddRoutePage() {
                         id="image"
                         type="text"
                         placeholder="Ссылка на фотографию"
-                    />
-                </div>
+                    /></div>
 
                 <button type="submit">
                     Добавить маршрут

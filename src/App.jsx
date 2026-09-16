@@ -1,14 +1,20 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
-import HomePage  from './pages/HomePage'
+import { Routes, Route } from "react-router-dom"
+import HomePage from "./pages/HomePage"
+import RoutesPage from "./pages/RoutesPage"
+import RoutePage from "./pages/RoutePage"
+import AddRoutePage from "./pages/AddRoutePage"
 
 function App() {
 
-    return (<HomePage/>)
+    return (
 
+        <Routes>
+            <Route path="/" element={<HomePage />} ></Route>
+            <Route path="/routes" element={<RoutePage />} ></Route>
+            <Route path="/routes/:id" element={<RoutesPage />} ></Route>
+            <Route path="/add-route" element={<AddRoutePage />} ></Route>
+        </Routes>
+    )
 }
 
 export default App
