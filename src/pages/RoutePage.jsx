@@ -1,3 +1,5 @@
+import RouterCard from "../components/RouterCard"
+
 function RoutesPage() {
     return (
         <main>
@@ -6,10 +8,8 @@ function RoutesPage() {
             <section>
                 <h2>Поиск маршрутов</h2>
 
-                <input
-                    type="text"
-                    placeholder="Введите название маршрута"
-                />
+                <input type="text"
+                    placeholder="Введите название маршрута"/>
 
                 <select>
                     <option value="">Все сложности</option>
@@ -22,64 +22,12 @@ function RoutesPage() {
             <section>
                 <h2>Маршруты</h2>
 
-                <article>
-                    <h3>Прогулка по старому городу</h3>
-
-                    <p>
-                        <strong>Город:</strong> Амстердам
-                    </p>
-
-                    <p>
-                        <strong>Длительность:</strong> 3 часа
-                    </p>
-
-                    <p>
-                        <strong>Сложность:</strong> Легкая
-                    </p>
-
-                    <p>
-                        Пеший туристический маршрут по исторической
-                        части города.
-                    </p>
-
-                    <a href="/routes/1">
-                        Подробнее
-                    </a>
-
-                    <button type="button">
-                        В избранное
-                    </button>
-                </article>
-
-                <article>
-                    <h3>Горный маршрут</h3>
-
-                    <p>
-                        <strong>Город:</strong> Инсбрук
-                    </p>
-
-                    <p>
-                        <strong>Длительность:</strong> 6 часов
-                    </p>
-
-                    <p>
-                        <strong>Сложность:</strong> Сложная
-                    </p>
-
-                    <p>
-                        Маршрут по горной местности с красивыми
-                        природными видами.
-                    </p>
-
-                    <a href="/routes/2">
-                        Подробнее
-                    </a>
-
-                    <button type="button">
-                        В избранное
-                    </button>
-                </article>
-            </section>
+               <RouterCard id={1} name="Маршрут 1" city="Абакан"        complexity="Легкая"  image="/images/abakan.jpg"/>
+               <RouterCard id={2} name="Маршрут 2" city="Москва"        complexity="Средняя" image="/images/moscow.jpg"/>
+               <RouterCard id={3} name="Маршрут 3" city="Казань"        complexity="Сложная" image="/images/Ekaterinburg.jpg"/>
+               <RouterCard id={4} name="Маршрут 4" city="Екатеринбург"  complexity="Легкая"  image="/images/.jpg"/>
+               <RouterCard id={5} name="Маршрут 5" city="Уфа"           complexity="Средняя" image="/UFA/.jpg"/>
+            </section>    
         </main>
     )
 }
