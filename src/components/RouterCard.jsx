@@ -1,4 +1,5 @@
 import RouteImage from "./RouteImage";
+import { Link } from "react-router-dom";
 
 function RouterCard({
     name,
@@ -12,10 +13,12 @@ function RouterCard({
         <div className="card">
             {image && (
                 <RouteImage
-                    src={image}
-                    alt={`Туристический маршрут: ${name}`}
+                src={image}
+                alt={`Туристический маршрут: ${name}`}
                 />
             )}
+
+            <Link to="/add-route" className="button"> Добавить маршрут </Link>
 
             <h2>{name}</h2>
             <h3>Город: {city}</h3>
