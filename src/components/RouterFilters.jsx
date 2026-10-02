@@ -8,17 +8,17 @@ function RouteFilters({
 }) {
     return (
         <section className="route-filters">
-            <h2>Поиск маршрутов</h2>
+            <h2>По иск машрутов по городам</h2>
 
             <div>
                 <label htmlFor="search">
-                    Название маршрута
+                    Название города
                 </label>
 
                 <input
                     id="search"
                     type="text"
-                    placeholder="Введите название маршрута"
+                    placeholder="Введите название города"
                     value={searchTerm}
                     onChange={(event) =>
                         setSearchTerm(event.target.value)

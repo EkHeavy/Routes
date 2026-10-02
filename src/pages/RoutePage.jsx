@@ -12,10 +12,10 @@ function RoutesPage() {
                     placeholder="Введите название маршрута"/>
 
                 <select>
-                    <option value="">Все сложности</option>
-                    <option value="easy">Легкая</option>
-                    <option value="medium">Средняя</option>
-                    <option value="hard">Сложная</option>
+                    <option value="">       Все сложности</option>
+                    <option value="easy">   Легкая</option>
+                    <option value="medium"> Средняя</option>
+                    <option value="hard">   Сложная</option>
                 </select>
             </section>
 

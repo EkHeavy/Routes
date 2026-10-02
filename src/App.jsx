@@ -1,13 +1,16 @@
-import { Routes, Route } from "react-router-dom"
-import { useState, useEffect } from "react";
-import HomePage from "./pages/HomePage"
-import RoutesPage from "./pages/RoutesPage"
-import RoutePage from "./pages/RoutePage"
-import AddRoutePage from "./pages/AddRoutePage"
-import Header from "./components/Header"
+import { Routes, Route } from "react-router-dom";
+import { useState } from "react";
+
+import HomePage from "./pages/HomePage.jsx";
+import RoutesPage from "./pages/RoutesPage.jsx";
+import RoutePage from "./pages/RoutePage.jsx";
+import AddRoutePage from "./pages/AddRoutePage.jsx";
+
+import Header from "./components/Header.jsx";
 
 
 const routesCity = [
+
     {
         id: 1,
         name: "Маршрут 1",
@@ -17,6 +20,7 @@ const routesCity = [
         description: "Прогулка по Абакану",
         image: "/images/abakan.jpg"
     },
+
     {
         id: 2,
         name: "Маршрут 2",
@@ -26,6 +30,7 @@ const routesCity = [
         description: "Прогулка по Москве",
         image: "/images/moscow.jpg"
     },
+
     {
         id: 3,
         name: "Маршрут 3",
@@ -35,6 +40,7 @@ const routesCity = [
         description: "Прогулка по Казани",
         image: ""
     },
+
     {
         id: 4,
         name: "Маршрут 4",
@@ -44,6 +50,7 @@ const routesCity = [
         description: "Прогулка по Екатеринбургу",
         image: ""
     },
+
     {
         id: 5,
         name: "Маршрут 5",
@@ -53,54 +60,85 @@ const routesCity = [
         description: "Прогулка по Уфе",
         image: ""
     }
+
 ];
+
 
 function App() {
 
     const [routes, setRoutes] = useState(routesCity);
-    const [favoriteIds, setFavoriteIds] = useState([]);
 
-    function toggleFavorite(routeId) {
-        setFavoriteIds((previousIds) => {
-            if (previousIds.includes(routeId)) {
-                return previousIds.filter((id) => id !== routeId);
-            }
 
-            return [...previousIds, routeId];
-        });
+    // Добавление нового маршрута
+    function addRoute(newRoute) {
+
+        setRoutes((previousRoutes) => [
+
+            ...previousRoutes,
+
+            newRoute
+
+        ]);
+
     }
 
-  return (
-    <>
-        <Header siteName="Каталог туристических маршрутов" />
 
-    <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/routes" element={<RoutesPage routes={routes} />} />
-        <Route path="/routes/:id" element={<RoutePage />} />
-        <Route path="/add-route" element={<AddRoutePage />} />
-    </Routes>
-    </>
-)}
+    // Удаление маршрута
+    function deleteRoute(routeId) {
 
-export default App
-/*
-Реализовать:
-название маршрута;
-город;
-длительность;
-сложность;
-описание;
-фотографию;
-поиск;
-фильтрацию по сложности;
-страницу маршрута;
-добавление маршрута;
-избранное.
+        setRoutes((previousRoutes) =>
 
-Страницы:
-Главная;
-Маршруты;
-Маршрут;
-Добавить маршрут.
-*/
+            previousRoutes.filter(
+
+                (route) => route.id !== routeId
+
+            )
+
+        );
+
+    }
+
+
+    return (
+        <>
+
+            <Header
+                siteName="Каталог туристических маршрутов"
+            />
+
+
+            <Routes>
+
+
+                <Route
+                    path="/"
+                    element={
+                        <HomePage />
+                    }
+                />
+
+
+                <Route
+                    path="/routes"
+                    element={
+                        <RoutesPage
+                            routes={routes}
+                            deleteRoute={deleteRoute}
+                        />
+                    }
+                />
+
+
+                <Route
+                    path="/routes/:id"
+                    element={
+                        <RoutePage
+                            routes={routes}/>}/>
+
+                <Route
+                    path="/add-route"
+                    element={
+                        <AddRoutePage addRoute={addRoute}/>}/></Routes></>);}
+
+
+export default App;

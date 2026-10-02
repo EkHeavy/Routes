@@ -1,26 +1,42 @@
 import { useState } from "react";
+
 import RouteFilters from "../components/RouterFilters.jsx";
 import RouterCard from "../components/RouterCard.jsx";
 
-function RoutesPage({ routes }) {
+
+function RoutesPage({ routes, deleteRoute }) {
+
     const [searchTerm, setSearchTerm] = useState("");
     const [difficulty, setDifficulty] = useState("");
 
+
     const filteredRoutes = routes.filter((route) => {
-        const matchesSearch = route.name
+
+        const matchesSearch = route.city
             .toLowerCase()
-            .includes(searchTerm.trim().toLowerCase());
+            .includes(
+                searchTerm
+                    .trim()
+                    .toLowerCase()
+            );
+
 
         const matchesDifficulty =
             difficulty === "" ||
             route.complexity === difficulty;
 
+
         return matchesSearch && matchesDifficulty;
     });
 
+
     return (
         <main>
-            <h1>Туристические маршруты</h1>
+
+            <h1>
+                Туристические маршруты
+            </h1>
+
 
             <RouteFilters
                 searchTerm={searchTerm}
@@ -29,27 +45,53 @@ function RoutesPage({ routes }) {
                 setDifficulty={setDifficulty}
             />
 
+
             <section>
-                <h2>Маршруты</h2>
+
+                <h2>
+                    Маршруты
+                </h2>
+
 
                 {filteredRoutes.length > 0 ? (
+
                     filteredRoutes.map((route) => (
+
                         <RouterCard
                             key={route.id}
+
+                            id={route.id}
+
                             name={route.name}
+
                             city={route.city}
+
                             duration={route.duration}
+
                             complexity={route.complexity}
+
                             description={route.description}
+
                             image={route.image}
+
+                            deleteRoute={deleteRoute}
                         />
+
                     ))
+
                 ) : (
-                    <p>Маршруты не найдены</p>
+
+                    <p>
+                        Маршруты не найдены
+                    </p>
+
                 )}
+
             </section>
+
         </main>
     );
 }
+
 
 export default RoutesPage;
