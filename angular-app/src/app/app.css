@@ -1,0 +1,32 @@
+.date-label {
+  color: #17332d;
+  font-weight: 700;
+}
+
+.date-picker-button {
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #dce5df;
+  border-radius: 12px;
+  padding: 10px 16px;
+  color: #17332d;
+  background: #ffffff;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.date-picker-button:hover {
+  border-color: #0d6757;
+  background: #e8f2ee;
+}
+
+.hidden-date-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}

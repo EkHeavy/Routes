@@ -1,0 +1,107 @@
+<header class="hybrid-bar">
+  <div class="hybrid-bar__inner">
+    <div class="stack-label" aria-label="Технологии приложения">
+      <span class="stack-label__angular">Angular shell</span>
+      <span class="stack-label__plus">+</span>
+      <span class="stack-label__react">React catalog</span>
+    </div>
+
+    <dl class="catalog-stats" aria-label="Статистика каталога">
+      <div>
+        <dt>Маршрутов</dt>
+        <dd>{{ routeCount() }}</dd>
+      </div>
+      <div>
+        <dt>В избранном</dt>
+        <dd>{{ favoriteCount() }}</dd>
+      </div>
+      <div class="api-indicator" [class.api-indicator--ready]="apiStatus() === 'success'">
+        <dt>REST API</dt>
+        <dd>
+          @switch (apiStatus()) {
+            @case ('loading') { загрузка }
+            @case ('success') { подключен }
+            @default { офлайн }
+          }
+        </dd>
+      </div>
+    </dl>
+  </div>
+</header>
+
+<section class="trip-dates" aria-labelledby="trip-dates-title">
+  <h2 id="trip-dates-title">Даты поездки</h2>
+
+  <div class="date-grid">
+    <div class="date-field">
+      <span class="date-label">Дата начала</span>
+
+      <button
+        class="date-picker-button"
+        type="button"
+        (click)="openStartDatePicker()"
+      >
+        <span aria-hidden="true">📅</span>
+
+        @if (tripStartDate()) {
+          {{ tripStartDate() }}
+        } @else {
+          Выбрать дату начала
+        }
+      </button>
+
+      <input
+        #startDatePicker
+        class="hidden-date-input"
+        type="date"
+        [value]="tripStartDate()"
+        (change)="setTripStartDate($event)"
+        tabindex="-1"
+        aria-hidden="true"
+      >
+    </div>
+
+    <div class="date-field">
+      <span class="date-label">Дата окончания</span>
+
+      <button
+        class="date-picker-button"
+        type="button"
+        (click)="openEndDatePicker()"
+      >
+        <span aria-hidden="true">📅</span>
+
+        @if (tripEndDate()) {
+          {{ tripEndDate() }}
+        } @else {
+          Выбрать дату окончания
+        }
+      </button>
+
+      <input
+        #endDatePicker
+        class="hidden-date-input"
+        type="date"
+        [min]="tripStartDate()"
+        [value]="tripEndDate()"
+        (change)="setTripEndDate($event)"
+        tabindex="-1"
+        aria-hidden="true"
+      >
+    </div>
+  </div>
+
+  @if (dateError()) {
+    <p class="date-error" role="alert">
+      {{ dateError() }}
+    </p>
+  }
+</section>
+
+<tourist-routes-app
+  (catalog-change)="updateStats($event)">
+</tourist-routes-app>
+
+
+
+<tourist-routes-app (catalog-change)="updateStats($event)"></tourist-routes-app>

@@ -1,17 +1,24 @@
-import {Link} from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 
 
 function Header({ siteName }) {
     return (
-        <header>
-            <h1>{siteName}</h1>
-            <nav>
-                <Link to="/" style={{ textDecoration: "none" }}> Главная </Link>
-                <Link to="/routes" style={{textDecoration: "none"}}> Маршруты </Link>
-                <Link to="/add-route" style={{textDecoration: "none"}} >Добавить маршрут</Link>
-            </nav>
+        <header className="site-header">
+            <div className="site-header-inner">
+                <NavLink className="brand" to="/" aria-label={`${siteName}: главная`}>
+                    <span className="brand-mark" aria-hidden="true">⌁</span>
+                    <span>{siteName}</span>
+                </NavLink>
+
+                <nav className="site-nav" aria-label="Основная навигация">
+                    <NavLink to="/" end>Главная</NavLink>
+                    <NavLink to="/routes">Маршруты</NavLink>
+                    <NavLink to="/add-route">Добавить маршрут</NavLink>
+                </nav>
+            </div>
         </header>
-    )
+    );
 }
+
 
 export default Header;

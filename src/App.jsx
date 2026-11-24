@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import HomePage from "./pages/HomePage.jsx";
 import RoutesPage from "./pages/RoutesPage.jsx";
@@ -7,10 +7,10 @@ import RoutePage from "./pages/RoutePage.jsx";
 import AddRoutePage from "./pages/AddRoutePage.jsx";
 
 import Header from "./components/Header.jsx";
+import "./App.css";
 
 
 const routesCity = [
-
     {
         id: 1,
         name: "Маршрут 1",
@@ -60,24 +60,136 @@ const routesCity = [
         description: "Прогулка по Уфе",
         image: ""
     }
-
 ];
 
 
-function App() {
+function App({ onCatalogChange }) {
 
     const [routes, setRoutes] = useState(routesCity);
+    const [favorites, setFavorites] = useState([]);
+
+    // Состояние загрузки данных с API
+    const [apiStatus, setApiStatus] = useState("loading");
+
+
+    // Получение данных с внешнего REST API
+    useEffect(() => {
+
+        async function loadRoutesFromApi() {
+
+            try {
+
+                setApiStatus("loading");
+
+
+                const response = await fetch(
+                    "https://dummyjson.com/users?limit=5"
+                );
+
+
+                if (!response.ok) {
+                    throw new Error(
+                        "Ошибка при загрузке данных"
+                    );
+                }
+
+
+                const data = await response.json();
+
+
+                const difficulties = [
+                    "Легкая",
+                    "Средняя",
+                    "Сложная"
+                ];
+
+
+                // Преобразуем данные API
+                // в туристические маршруты
+                const apiRoutes = data.users.map(
+                    (user, index) => {
+
+                        const city =
+                            user.address?.city ||
+                            "Неизвестный город";
+
+
+                        return {
+                            id: 1000 + user.id,
+
+                            name:
+                                `Маршрут по городу ${city}`,
+
+                            city: city,
+
+                            duration:
+                                `${index + 2} часа`,
+
+                            complexity:
+                                difficulties[
+                                    index %
+                                    difficulties.length
+                                ],
+
+                            description:
+                                `Туристический маршрут по городу ${city}. Данные получены с внешнего REST API.`,
+
+                            image:
+                                user.image || ""
+                        };
+                    }
+                );
+
+
+                // Добавляем данные API
+                // к существующим маршрутам
+                setRoutes((previousRoutes) => {
+
+                    // Убираем старые API-маршруты,
+                    // чтобы они не дублировались
+                    const routesWithoutApi =
+                        previousRoutes.filter(
+                            (route) =>
+                                !(
+                                    route.id >= 1000 &&
+                                    route.id < 2000
+                                )
+                        );
+
+
+                    return [
+                        ...routesWithoutApi,
+                        ...apiRoutes
+                    ];
+                });
+
+
+                setApiStatus("success");
+
+            } catch (error) {
+
+                console.error(
+                    "Ошибка API:",
+                    error
+                );
+
+
+                setApiStatus("error");
+            }
+        }
+
+
+        loadRoutesFromApi();
+
+    }, []);
 
 
     // Добавление нового маршрута
     function addRoute(newRoute) {
 
         setRoutes((previousRoutes) => [
-
             ...previousRoutes,
-
             newRoute
-
         ]);
 
     }
@@ -89,14 +201,36 @@ function App() {
         setRoutes((previousRoutes) =>
 
             previousRoutes.filter(
-
-                (route) => route.id !== routeId
-
+                (route) =>
+                    route.id !== routeId
             )
 
         );
 
+        setFavorites((previousFavorites) =>
+            previousFavorites.filter((id) => id !== routeId)
+        );
+
     }
+
+
+    // Избранное хранится в React, а его количество передается Angular-оболочке.
+    function toggleFavorite(routeId) {
+        setFavorites((previousFavorites) =>
+            previousFavorites.includes(routeId)
+                ? previousFavorites.filter((id) => id !== routeId)
+                : [...previousFavorites, routeId]
+        );
+    }
+
+
+    useEffect(() => {
+        onCatalogChange?.({
+            routeCount: routes.length,
+            favoriteCount: favorites.length,
+            apiStatus
+        });
+    }, [routes, favorites, apiStatus, onCatalogChange]);
 
 
     return (
@@ -108,7 +242,6 @@ function App() {
 
 
             <Routes>
-
 
                 <Route
                     path="/"
@@ -124,6 +257,9 @@ function App() {
                         <RoutesPage
                             routes={routes}
                             deleteRoute={deleteRoute}
+                            apiStatus={apiStatus}
+                            favorites={favorites}
+                            toggleFavorite={toggleFavorite}
                         />
                     }
                 />
@@ -133,12 +269,28 @@ function App() {
                     path="/routes/:id"
                     element={
                         <RoutePage
-                            routes={routes}/>}/>
+                            routes={routes}
+                            favorites={favorites}
+                            toggleFavorite={toggleFavorite}
+                        />
+                    }
+                />
+
 
                 <Route
                     path="/add-route"
                     element={
-                        <AddRoutePage addRoute={addRoute}/>}/></Routes></>);}
+                        <AddRoutePage
+                            addRoute={addRoute}
+                        />
+                    }
+                />
+
+            </Routes>
+
+        </>
+    );
+}
 
 
 export default App;

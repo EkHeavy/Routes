@@ -1,16 +1,26 @@
-# React + Vite
+# Каталог туристических маршрутов: Angular + React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Проект объединен в одно приложение:
 
-Currently, two official plugins are available:
+- Angular запускает общую оболочку и отображает статистику;
+- React отвечает за каталог, страницы, фильтры, форму, REST API и избранное;
+- React собирается как Web Component `<tourist-routes-app>`;
+- статистика передается из React в Angular через событие `catalog-change`.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Запуск
 
-## React Compiler
+```bash
+npm run dev
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+После запуска откройте `http://localhost:4200`.
 
-## Expanding the ESLint configuration
+## Сборка
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm run build
+```
+
+Команда сначала собирает React-компонент в `angular-app/public/react-widget`, затем создает итоговую Angular-сборку в `angular-app/dist/angular-app`.
+
+Для отдельного запуска старой React-точки входа остается команда `npm run dev:react`.

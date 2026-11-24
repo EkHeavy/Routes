@@ -4,10 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
+    "dev": "npm run build:widget && npm --prefix angular-app start",
+    "dev:react": "vite",
+    "build": "npm run build:widget && npm --prefix angular-app run build",
+    "build:react": "vite build",
+    "build:widget": "vite build --config vite.widget.config.js",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "npm --prefix angular-app run start"
   },
   "dependencies": {
     "react": "^19.2.8",

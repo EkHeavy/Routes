@@ -4,39 +4,40 @@ import RouteFilters from "../components/RouterFilters.jsx";
 import RouterCard from "../components/RouterCard.jsx";
 
 
-function RoutesPage({ routes, deleteRoute }) {
-
+function RoutesPage({
+    routes,
+    deleteRoute,
+    apiStatus,
+    favorites,
+    toggleFavorite
+}) {
     const [searchTerm, setSearchTerm] = useState("");
     const [difficulty, setDifficulty] = useState("");
 
-
     const filteredRoutes = routes.filter((route) => {
-
         const matchesSearch = route.city
             .toLowerCase()
-            .includes(
-                searchTerm
-                    .trim()
-                    .toLowerCase()
-            );
-
+            .includes(searchTerm.trim().toLowerCase());
 
         const matchesDifficulty =
-            difficulty === "" ||
-            route.complexity === difficulty;
-
+            difficulty === "" || route.complexity === difficulty;
 
         return matchesSearch && matchesDifficulty;
     });
 
-
     return (
-        <main>
+        <main className="page">
+            <header className="page-header">
+                <span className="eyebrow">Выберите направление</span>
+                <h1>Туристические маршруты</h1>
+                <p>Найдите подходящий город и уровень сложности.</p>
+            </header>
 
-            <h1>
-                Туристические маршруты
-            </h1>
-
+            <div className={`api-status api-status-${apiStatus}`} role="status">
+                {apiStatus === "loading" && "Загружаем дополнительные маршруты…"}
+                {apiStatus === "error" && "API недоступен — показаны сохраненные маршруты."}
+                {apiStatus === "success" && "Дополнительные маршруты успешно загружены."}
+            </div>
 
             <RouteFilters
                 searchTerm={searchTerm}
@@ -45,50 +46,28 @@ function RoutesPage({ routes, deleteRoute }) {
                 setDifficulty={setDifficulty}
             />
 
-
-            <section>
-
-                <h2>
-                    Маршруты
-                </h2>
-
+            <section aria-labelledby="routes-title">
+                <div className="section-heading">
+                    <h2 id="routes-title">Маршруты</h2>
+                    <span>{filteredRoutes.length} найдено</span>
+                </div>
 
                 {filteredRoutes.length > 0 ? (
-
-                    filteredRoutes.map((route) => (
-
-                        <RouterCard
-                            key={route.id}
-
-                            id={route.id}
-
-                            name={route.name}
-
-                            city={route.city}
-
-                            duration={route.duration}
-
-                            complexity={route.complexity}
-
-                            description={route.description}
-
-                            image={route.image}
-
-                            deleteRoute={deleteRoute}
-                        />
-
-                    ))
-
+                    <div className="route-grid">
+                        {filteredRoutes.map((route) => (
+                            <RouterCard
+                                key={route.id}
+                                {...route}
+                                isFavorite={favorites.includes(route.id)}
+                                toggleFavorite={toggleFavorite}
+                                deleteRoute={deleteRoute}
+                            />
+                        ))}
+                    </div>
                 ) : (
-
-                    <p>
-                        Маршруты не найдены
-                    </p>
-
+                    <p className="empty-state">Маршруты не найдены. Измените параметры поиска.</p>
                 )}
-
             </section>
-
         </main>
     );
 }

@@ -1,8 +1,14 @@
-function RouteImage({src, alt}){
-    <img 
-    className="route-image"
-    src="" 
-    alt="" />
+function RouteImage({ src, alt }) {
+
+    return (
+        <img
+            className="route-image"
+            src={src}
+            alt={alt}
+        />
+    );
+
 }
 
-export default RouteImage
+
+export default RouteImage;
